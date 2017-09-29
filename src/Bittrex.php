@@ -34,7 +34,7 @@ class Bittrex
 
 		if ($apiKey == true) {
 			$params['apikey'] = $this->apiKey;
-			$params['nonce']  = time();
+			$params['nonce']  = microtime(true);
 		}
 
 		if (!empty($params)) {
@@ -46,6 +46,8 @@ class Bittrex
 		$ch = curl_init ($uri);
 		curl_setopt ($ch, CURLOPT_HTTPHEADER, array('apisign: '.$sign));
 		curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt ($ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, 30);
 		$result = curl_exec($ch);
 
 		$answer = json_decode($result);
